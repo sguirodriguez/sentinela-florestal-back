@@ -13,21 +13,20 @@ import java.util.Optional;
 @RequestMapping("/api/events")
 @CrossOrigin(origins = "*")
 public class EventController {
-    
+
     @Autowired
     private EventRepository eventRepository;
-    
+
     @GetMapping
     public ResponseEntity<List<Event>> getAllEvents() {
-        List<Event> events = eventRepository.findAll();
+        List<Event> events = eventRepository.findAllWithImages();
         return ResponseEntity.ok(events);
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<Event> getEventById(@PathVariable Long id) {
-        Optional<Event> event = eventRepository.findById(id);
+        Optional<Event> event = eventRepository.findByIdWithImages(id);
         return event.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 }
-
